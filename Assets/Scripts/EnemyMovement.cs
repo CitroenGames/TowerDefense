@@ -8,7 +8,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
 
     [Header("Attributes")]
-    [SerializeField] float moveSpeed = 2f;
+    [SerializeField] float moveSpeed = 0.5f;
 
     private Transform target;
     private int pathIndex = 0;

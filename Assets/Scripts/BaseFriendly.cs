@@ -3,29 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Tilemaps;
+using Unity.VisualScripting;
 
 public class BaseFriendly : MonoBehaviour
 {
     [Header("Refrences")]
     [SerializeField] private Transform BaseTransform;
     [SerializeField] private LayerMask EnemyMask;
+    [SerializeField] private GameObject BulletPrefab;
+    [SerializeField] private Transform BulletSpawnPoint;
 
     [Header("Attributes")]
     [SerializeField] private float TargetingRange = 5f;
+    [SerializeField] private float RotationSpeed = 200f;
+    [SerializeField] private float FireRate = 1f;
 
     private Transform Target = null;
+    private float FireTimer = 0f;
 
     private void Update()
     {
-        if (Target != null)
+        if (Target == null)
         {
-            RotateTowardTarget();
+            if(!FindTarget())
+            {
+                return;
+            }
+        }
+
+        if (!IsTargetInRange())
+        {
+            Target = null;
             return;
         }
-        if (FindTarget())
+
+        RotateTowardTarget();
+        
+        FireTimer += Time.deltaTime;
+        if (FireTimer >= 1f / FireRate)
         {
-            RotateTowardTarget();
-            return;
+            Fire();
+            FireTimer = 0f;
+        }
+    }
+
+    private void Fire()
+    {
+        GameObject bulletobj = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
+        BaseBullet BulletScript = bulletobj.GetComponent<BaseBullet>();
+        if (BulletScript != null)
+        {
+            BulletScript.SetTarget(Target);
+        }
+        else
+        {
+            Debug.LogError("BulletScript is null");
         }
     }
 
@@ -49,7 +81,12 @@ public class BaseFriendly : MonoBehaviour
 
         Quaternion TargetRotation = Quaternion.Euler(new Vector3(0, 0, angle - 90f));
 
-        transform.rotation = TargetRotation;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, TargetRotation, RotationSpeed * Time.deltaTime);
+    }
+
+    private bool IsTargetInRange()
+    {
+        return Vector2.Distance(Target.position, transform.position) <= TargetingRange;
     }
 
     private void OnDrawGizmos()

@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 5624381236498476706}
   - component: {fileID: 6465228833960594581}
   - component: {fileID: 4030514923439438935}
+  - component: {fileID: -3323765611141466609}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: BaseEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +98,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 4306817889784434507}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -112,7 +113,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &6465228833960594581
 CircleCollider2D:
@@ -163,3 +164,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5624381236498476706}
   moveSpeed: 2
+--- !u!114 &-3323765611141466609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4306817889784434507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b037365189d149c43a8d0c506f5d4fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
