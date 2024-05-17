@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] private float m_maxHealth = 100f;
     [SerializeField] private Slider slider;
+    [SerializeField] private int pointsperkill = 50;
     public float m_Health;
 
     private bool isDead = false;
@@ -27,6 +28,7 @@ public class Health : MonoBehaviour
         if (m_Health <= 0 && !isDead)
         {
             EnemySpawner.OnEnemyKilled.Invoke();
+            LevelManager.main.RemoveCurrency(pointsperkill);
             isDead = true;
             Destroy(gameObject);
         }
