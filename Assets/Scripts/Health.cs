@@ -10,6 +10,8 @@ public class Health : MonoBehaviour
     [SerializeField] private Slider slider;
     public float m_Health;
 
+    private bool isDead = false;
+
     private void Start()
     {
         m_Health = m_maxHealth;
@@ -22,9 +24,10 @@ public class Health : MonoBehaviour
         m_Health -= damage;
         slider.value = m_Health;
 
-        if (m_Health <= 0)
+        if (m_Health <= 0 && !isDead)
         {
             EnemySpawner.OnEnemyKilled.Invoke();
+            isDead = true;
             Destroy(gameObject);
         }
     }
